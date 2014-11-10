@@ -1,0 +1,306 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Drawing</title>
+		<script>
+		    var ctx;
+			var lineColor;//Color linea de los arcos
+			var lineWidth;//Ancho 
+			var color;//Color nodos
+			var radius;//Radio de los nodos
+			var delta;//???
+			var lastNodeSelected, lastEdgeSelected;
+			var nodeBtn;//Boton para borrar nodos
+		  window.onload = function(){
+			canvas = document.getElementById("canvas");
+			ctx = canvas.getContext("2d");
+			lineColor='red';
+			lineWidth=1;
+			color = 'blue';
+			radius = 10;
+			delta =radius/3-1;//(radio/3) - 1. En este ejemplo predeterminado va a ser delta de 5.
+			lastNodeSelected=null;
+			lastEdgeSelected=null;
+			nodeBtn = document.getElementById("node");
+			edgeBtn = document.getElementById("edge");//Boton para borrar los arcos. Por alguna razon no fue declarado arriba
+			
+			nodeBtn.onclick = function(e){//Evento sin jquery para borrar nodos con el boton.
+			  if(!lastNodeSelected) return;//Si no se habia seleccionado ninguno no se puede hacer nada
+			  deleteNode(lastNodeSelected, 'white');
+			  lastNodeSelected=null;
+			};
+			
+			edgeBtn.onclick = function(e){//Lo mismo pero para arcos.
+			  if(!lastEdgeSelected) return;
+			  deleteEdge(lastEdgeSelected);
+			  lastEdgeSelected=null;
+			};
+		  	nodeBtn.disabled=true;//Hasta que se seleccione un nodo
+			edgeBtn.disabled=true;//Hasta que se seleccione un arco
+			canvas.ondblclick = function(e){//Cuando se le hace dobleclick al canvas.q
+			                   var x = e.pageX - canvas.offsetLeft; //Pos_en_pagina - corrimiento_de_canvas_en_css = pos_efectiva
+							   var y = e.pageY - canvas.offsetTop;
+							   var n = new Vertex(x,y);//Ni idea, seguro puntos cartesianos.
+			                   drawNode(n);
+			};
+			canvas.onclick = function(e){
+			   var x = e.pageX - canvas.offsetLeft;
+			   var y = e.pageY - canvas.offsetTop;
+			   if(foundSelectedNode(x, y)) {return true;}//Busca si hay un nodo en esa posicion. foundSelected activa los botones. retorna para no leer lo ultimo.
+			   if (foundSelectedEdge(x, y)) {return true;;};//Busca si hay un edge en esa posición. Solo sirve estando como bastante al centro.
+			   nodeBtn.disabled=true;
+			   edgeBtn.disabled=true;
+			};
+			canvas.onmousedown=function(e){//Solo para debugeo supongo
+			   console.log('mouse down');
+			};
+			canvas.onmouseup=function(e){
+			   console.log('mouse up');
+			};
+	      function Vertex(x, y, r, c){
+			   this.x=x;
+			   this.y=y;
+			   this.radius=r||radius;//Si no existe el parámetro lo agarra por defecto
+			   this.r2 = this.radius*this.radius;
+			   this.color = c || color;
+			   this.inside = function(x, y){//calcula si la coordenada que le mando esta adentro del circulo.
+			       var dx = this.x - x;
+			       var dy = this.y - y;
+			       return dx*dx + dy*dy <= this.r2;
+				};
+				this.out=[];//Que es este out???? --> Creo que es la lista de nodos asociados a este. NO. es la lista de ARCOS
+				this.link = function(e){//Agrega un link o sea enlaza un nodo. NO, agrega un edge
+				  this.out.push(e);
+				};
+				
+				this.disconnect = function(e){
+				   var newEdges=[];
+				   var edges = this.out;
+			       for(var i=0;i<edges.length;i++)
+						if(!Object.is(edges[i], e)) newEdges.push(edges[i]);//Buscar en la lista el nodo E y desconectarlo.
+						/*Pregunta: por qué no lo quito y ya en vez de hacer una nueva lista?
+							PD: se puede hacer funcional con un filter.
+						*/
+			       this.out=newEdges;
+				};
+				
+				nodes.push(this);//Lo agrega a la lista de todos los nodos?
+			};
+			function Edge(left, right){
+			   this.left = left;
+			   this.right = right;
+			   this.left.link(this);
+			   if(!Object.is(right, left))this.right.link(this);//La validación es por si el arco va a sí mismo.
+			   edges.push(this);//Agrega a lista de arcos
+			   this.isLeft= function(x){return Object.is(x, left);}//Dado un nodo X, retorna true si ese nodo es el izq. No hace falta isRight? parece que no.
+			   this.isLoop = function(){return Object.is(right, left);}//Arco a si mismo
+			   this.inside = function(x, y){
+			      if(this.isLoop()) return insideLoop(this.left, x, y);
+				  var x0=this.left.x, y0=this.left.y;
+				  var x1=this.right.x, y1=this.right.y;//Agarra los centros de sus nodos
+				  if(x0==x1) 
+				   return x==x0 && ((y0 <= y && y <= y1)||(y1 <= y && y <= y0));
+				  var a = (y1-y0)/(x1 - x0);
+				  var b = y1 -a*x1;
+				  return Math.abs(a*x+b-y)<2;
+			   };
+			}
+			//Listas de nodos y arcos. Por qué no tenerlos un poco más arribita?
+			var nodes=[];
+			var edges=[];
+			
+			function drawNode(n, c){
+				ctx.beginPath();//ctx es document.getElementById("canvas");
+				ctx.fillStyle = c || n.color;
+				ctx.arc(n.x, n.y, n.radius, 0, Math.PI*2);//(x,y) del centro, el radio, el 0 n se que es. el resto tampoco. Dibuja el circulo
+				ctx.fill(); //Pinta el color de relleno
+				ctx.stroke();//No va aparecer nada en la pantalla hasta que no le de stroke().
+				
+			};
+			
+			function deleteNode(n){
+			   var newNodes=[];
+			   var i;
+			   for(i=0;i<nodes.length;i++){
+			     if(!Object.is(n, nodes[i])) newNodes.push(nodes[i]);//Agrega todos menos el que voy a borrar
+				 else{
+				   i++;
+				   lastNodeSelected=null;//Quito el puntero al nodo seleccionado.
+				   break;
+				 }  
+			   };
+			   for(;i<nodes.length;i++)//?????
+			      newNodes.push(nodes[i]);
+			   nodes = newNodes;
+			   eraseNode(n);
+			   //Yo pondría redraw all nodes para evitar que queden esas esquinitas en blanco
+			};
+			
+			
+			function eraseNode(n){//Dibuja el espacio en blanco donde quedó ese nodo.
+			  var x = n.x;
+			  var y = n.y;
+			  var r = n.radius+1;
+			  var d = 2*r;
+			  ctx.clearRect(x-r, y-r, d, d);
+			  
+			  for(var i =0; i < n.out.length; i++){
+			     var ll = lineWidth;
+				 lineWidth = ll+2;
+				 var e = n.out[i];
+				 if(e.isLeft(n))//Quitando los edges que contenian a ese nodo.
+			       drawFromTo(n, e.right, 'white');
+				 else 
+				   drawFromTo(e.left, n, 'white');
+				 lineWidth = ll;
+			  };
+			  n.out = [];
+			  nodeBtn.disabled=true;
+			};
+			
+			function sign(x, y){
+			  if(!delta) return 0;//radius/3 - 1 no se de que me sirve.
+			  if(x<y) return 1;
+			  return -1;
+			}
+			
+			function drawEdge(e, c){
+			  if(e.isLoop())
+			    drawLoop(e.left, c);
+			  else
+			  drawFromTo(e.left, e.right, c);
+			};
+			function drawFromTo(left, right, c){
+				var sx = sign(left.x, right.x);//sx==0 ->son puntos iguales
+				var sy = sign(left.y, right.y);
+				var st = ctx.strokeStyle;
+				var lw = ctx.lineWidth;
+				ctx.lineWidth = lineWidth+((c==='white')?2:0);//Si el color es blanco haga la linea mas gruesa
+				ctx.strokeStyle = (c)?c:lineColor;
+				console.log('drawFromTo:'+ctx.lineWidth);
+				ctx.beginPath();//Comienza la raya
+				ctx.moveTo(left.x+sx*(left.radius-delta), left.y+sy*(left.radius-delta));//Se mueve sin rayar
+				ctx.lineTo(right.x-sx*(right.radius-delta), right.y-sy*(right.radius-delta));//Hace raya hacia ese punto.
+				ctx.stroke();
+				ctx.strokeStyle = st;
+				ctx.lineWidth=lw;
+			};
+			function drawLoop(n, c){
+			    console.log('drawLoop before:'+ctx.lineWidth);
+			    var st = ctx.strokeStyle;
+				var lw = ctx.lineWidth;
+				ctx.lineWidth = lineWidth+((c==='white')?2:0);
+				ctx.strokeStyle = (c)?c:lineColor;
+				console.log('drawLoop after:'+ctx.lineWidth);
+			    var points = cPoints(n);
+				var sx = points[0], sy = points[1];
+				var c1x = points[2], c1y = points[3];
+				var c2x = points[4], c2y = points[5];
+				ctx.beginPath();
+				ctx.moveTo(sx, sy);
+	            ctx.bezierCurveTo(c1x, c1y, c2x, c2y, sx, sy);
+				ctx.closePath();
+				ctx.stroke();
+				ctx.strokeStyle = st;
+				ctx.lineWidth=lw;
+				console.log('drawLoop finally:'+ctx.lineWidth);
+				
+				
+			};
+			function cPoints(n){//puntos de referencia del circulo que representa a un nodo
+			    var r = n.radius;
+				var left = 8*r;
+				var right = left;
+				var sx = n.x, sy = n.y-r;
+				var c1x = sx-left, c1y = sy-right;
+				var c2x = sx+left, c2y = sy-right;
+				return [sx, sy, c1x, c1y, c2x, c2y];
+			};
+			function b(t, points){
+			  // b(t) = ((1-t)^3+t^2)P0 + t(1-t)^2(P1) + t^2*t1(P2)(pues P0==P3)
+			  var t1 = (1-t);
+			  var t2 = t*t;
+			  var c1 = t1*t1*t1+t2;
+			  var c2 = t1*t1*t;
+			  var c3 =  t1*t2;
+			  var bp0x = c1*points[0],   bp0y = c1*points[1];
+			  var bp1x = c2*(points[2]), bp1y=c2*(points[3]);
+			  var bp2x = c3*(points[4]), bp2y=c3*(points[5]);
+			  return [bp0x+bp1x+bp2x, bp0y+bp1y+bp2y];
+			};
+			function insideLoop(n, x, y){
+			   var points = cPoints(n);
+			   for(var i=0; i <= 50; i++){
+			     var ip = b(1-i/50, points);
+				 var dx = ip[0]-x, dy = ip[1]-y;
+				 var distance=(Math.sqrt(dx*dx + dy*dy))/(i+1);
+				 if ( distance < 1.5) return true;
+			   }
+			   return false;
+			};
+			function foundSelectedNode(x, y){
+			   var nodeSelected;
+			   for(var i=0;i<nodes.length;i++)
+			      if(nodes[i].inside(x, y)){ 
+				    nodeSelected=nodes[i];
+					break;
+				  };
+			   if(!nodeSelected) {nodeBtn.disabled=false;lastNodeSelected=null; return false;}
+			   if(!lastNodeSelected){nodeBtn.disabled=false; lastNodeSelected = nodeSelected; return true;}
+			   var edge = new Edge(lastNodeSelected, nodeSelected);
+			   drawEdge(edge);
+			   lastNodeSelected=null;
+			   nodeBtn.disabled=true;
+			   return true;
+			};
+			function foundSelectedEdge(x, y){
+			   var edgeSelected;
+			   for(var i=0;i<edges.length;i++)
+			      if(edges[i].inside(x, y)){ 
+				    edgeSelected=edges[i];
+					break;
+				  };
+			   if(!edgeSelected){ edgeBtn.disabled=true; return false;};
+			   nodeBtn.disabled=true;
+			   edgeBtn.disabled=false;
+			   if(!lastEdgeSelected){lastEdgeSelected = edgeSelected; return true;}
+			   
+			   return true;
+			};
+			function deleteEdge(e){
+			   e.left.disconnect(e);
+			   e.right.disconnect(e);
+			   var newEdges=[];
+			   for(var i=0;i<edges.length;i++){
+			     if(!Object.is(edges[i], e)) newEdges.push(edges[i]);
+			   };
+			   edges=newEdges;
+			   var lw = lineWidth;
+			   lineWidth+=3	;
+			   if(e.isLoop())
+			     drawLoop(e.left, 'white')
+			   else drawFromTo(e.left, e.right, 'white');
+			   lineWidth=lw;
+			   edgeBtn.disabled=true;
+			};
+		 };//onload
+	    </script>
+		<style>
+		  #canvas{
+		    border-style:solid;
+			border-width:1px;
+			margin-left: 30%;
+			margin-top:5%;
+		  }
+		  #node{
+		    margin-left: 40%;
+		  }
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" width="490" height="220"></canvas>
+		<button id="node">Delete Node</button>
+		<button id="edge">Delete Edge</button>
+	</body>
+	
+</html>
