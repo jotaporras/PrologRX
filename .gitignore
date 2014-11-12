@@ -1,0 +1,12 @@
+download/
+image/data/
+image/cache/
+system/cache/
+system/logs/
+
+*.java~
+*.js~
+*.class~
+*.g4~
+*~
+/.project
