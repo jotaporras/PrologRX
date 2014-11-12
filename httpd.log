@@ -1,0 +1,10 @@
+server(started, 1415814574).
+/*Wed Nov 12 11:49:34 2014*/ request(1, 1415814574.409, [peer(ip(127,0,0,1)),method(get),request_uri('/hi'),path('/hi'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(1, 0.0031835500000000003, 401, 200, ok).
+/*Wed Nov 12 11:49:34 2014*/ request(2, 1415814574.526, [peer(ip(127,0,0,1)),method(get),request_uri('/f/specialstyle.css'),path('/f/specialstyle.css'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36'),referer('http://localhost:9090/hi')]).
+/*Wed Nov 12 11:49:34 2014*/ request(3, 1415814574.527, [peer(ip(127,0,0,1)),method(get),request_uri('/f/script.js'),path('/f/script.js'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36'),referer('http://localhost:9090/hi')]).
+completed(2, 0.0015198579999999998, 365, 404, not_found('/f/specialstyle.css')).
+completed(3, 0.001225917, 358, 404, not_found('/f/script.js')).
+/*Wed Nov 12 11:49:34 2014*/ request(4, 1415814574.666, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(4, 0.001516102, 358, 404, error(404,'/favicon.ico')).
+server(stopped, 1415829721).

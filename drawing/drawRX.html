@@ -2,12 +2,13 @@
 <html>
 	<head>
 		<title>Rx Drawing</title>
+		<meta charset="UTF-8">
 		<script src="lib/jquery-2.1.0.min.js"></script>
-	    <script src="lib/rx.all.js"></script>
+		<script src="lib/rx.all.js"></script>
 		<script>
 		    // Model params
 			var canvas;
-		    var ctx;
+			var ctx;
 			var lineColor;
 			var lineWidth;
 			var color;
@@ -19,11 +20,11 @@
 			// View helpers
 			var nodeBtn;
 			function disable(d){
-				   d.attr("disabled", true);
-		    };
+			    d.attr("disabled", true);
+			};
 				
 			function enable(d){
-			   d.attr("disabled", false);
+			    d.attr("disabled", false);
 			};
 			
 			function Vertex(x, y, r, c){
@@ -36,21 +37,21 @@
 					   var dx = this.x - x;
 					   var dy = this.y - y;
 					   return dx*dx + dy*dy <= this.r2;
-					};
-					this.out=[];
-					this.link = function(e){
+				   };
+				   this.out=[];
+				   this.link = function(e){
 					  this.out.push(e);
-					};
+				   };
 					
-					this.disconnect = function(e){
+				   this.disconnect = function(e){
 					   var newEdges=[];
 					   var edges = this.out;
 					   for(var i=0;i<edges.length;i++)
 					   if(!Object.is(edges[i], e)) newEdges.push(edges[i]);
 					   this.out=newEdges;
-					};
+				    };
 					
-					nodes.push(this);
+				    nodes.push(this);
 				};
 				function Edge(left, right){
 				   this.left = left;
@@ -109,14 +110,23 @@
 				function NOT_NULL(n){
 				   return n != null;
 				};
+				
+				var btnEdgeClicks = Rx.Observable.fromEvent(edgeBtn, 'click')
+				                    .map(function(e){return lastEdgeSelected;})
+				                    .filter(NOT_NULL);
+				btnEdgeClicks.subscribe(
+				     eraseEdge,
+					 IGNORE
+				);
 				// Pipeline for node deletion
 				var btnNodeClicks = Rx.Observable.fromEvent(nodeBtn, 'click')
 				                    .map(function(e){return lastNodeSelected;})
 				                    .filter(NOT_NULL);
 				var edgesToDelete = btnNodeClicks.map(function(n){
+									var o = n.out;
 				                                        deleteNode(n);
-														return n.out;
-													})
+									return o;
+								})
 							       .flatMap(function(e){deleteEdge(e);return e;});
 									
 				edgesToDelete.subscribe(
@@ -221,7 +231,7 @@
 					  newNodes.push(nodes[i]);
 				   nodes = newNodes;
 				   eraseNode(n);
-				};
+			    };
 				
 			   function eraseNode(n){
 				  var x = n.x;
@@ -229,17 +239,6 @@
 				  var r = n.radius+1;
 				  var d = 2*r;
 				  ctx.clearRect(x-r, y-r, d, d);
-				  
-				  for(var i =0; i < n.out.length; i++){
-					 var ll = lineWidth;
-					 lineWidth = ll+2;
-					 var e = n.out[i];
-					 if(e.isLeft(n))
-					   drawFromTo(n, e.right, DEL_COLOR);
-					 else 
-					   drawFromTo(e.left, n, DEL_COLOR);
-					 lineWidth = ll;
-				  };
 				  n.out = [];
 				  nodeBtn.disabled=true;
 				};
@@ -299,6 +298,7 @@
 				   // otherwise find out if first or second click
 				   if(!lastNodeSelected){
 					   console.log("This is the first node I select.");
+				       disable(edgeBtn);
 				       enable(nodeBtn); 
 					   lastNodeSelected = nodeSelected; 
 					   return {node:true, left:lastNodeSelected};
@@ -310,13 +310,43 @@
 				   return res;
 				};
 			   function foundSelectedEdge(point){
-			       // to-do
-			       return false;
-				};
+			       var x = point.x, y = point.y;
+			       var edgeSelected;
+			       for(var i=0;i<edges.length;i++)
+			       if(edges[i].inside(x, y)){ 
+				    edgeSelected=edges[i];
+					break;
+			       };
+			       if(!edgeSelected){ console.log("Didnt find a damn edge");
+				      lastEdgeSelected = null; 
+					  return {edge:false};
+			        };
+				
+				console.log("I've found Edge(WWE)");
+				disable(nodeBtn);
+				enable(edgeBtn);
+				lastEdgeSelected = edgeSelected; 
+				return {edge:true};
+				
+			   };
 			   function deleteEdge(e){
-			       // to-do
+			       e.left.disconnect(e);
+			       e.right.disconnect(e);
+			       var newEdges=[];
+				   var i;
+				   for(i=0; i<edges.length; i++){
+					 if(!Object.is(e, edges[i])) newEdges.push(edges[i]);
+					 else{
+					   i++;
+					   lastEdgeSelected=null;
+					   break;
+					 }  
+				   };
+				   for(;i<edges.length;i++)
+					  newEdges.push(edges[i]);
+				   edges = newEdges;
 				   console.log(e);
-				};
+			   };
 			   function eraseEdge(e){
 				   var lw = lineWidth;
 				   lineWidth += 3	;

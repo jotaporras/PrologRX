@@ -50,9 +50,9 @@ find_loop_edge(G,N,E) :-edge(G,E,N,N).
 %Graph,Node,Degree
 find_proper_degree_node(G,N,D) :- node(G,N), findall(1,find_proper_edge(G,N,_,_),L), length(L,D).
 find_loop_degree_node(G,N,D) :- node(G,N), 
-								findall(1,find_loop_edge(G,N,_),L),
-								length(L,K),
-								D is K + K.
+					findall(1,find_loop_edge(G,N,_),L),
+					length(L,K),
+					D is K + K.
 find_degree_node(G,N,D) :- find_loop_degree_node(G,N,DL),find_proper_degree_node(G,N,DP),D is DL+DP.
 
 generate_degrees(G) :- 	retractall(degree(_,_,_)), %Borra todos los que tenga para crearlos de nuevo.
