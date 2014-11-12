@@ -1,0 +1,8 @@
+{
+  "nodes":[ 
+	    {"name":"n1", "grafo":"g1"}
+	  ],
+  "edges":[
+	    {"name":"e1", "left":"n1", "right":"n1", "graph":"g1"}
+	  ]
+}
