@@ -1,0 +1,11 @@
+{
+  "graph": 
+  {"name": "g1",
+   "nodes":[ 
+	    {"name":"n1"}
+	  ],
+   "edges":[
+	    {"name":"e1", "left":"n1", "right":"n1"}
+	  ]}
+}
+
