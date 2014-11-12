@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <script src="../js/jquery-2.1.0.min.js"></script>
+		<script>
+		    var service="../php/gethint.php?q=";
+            
+			function showHintAJAX(str){
+			   hints=[];
+			   var url=service+str;
+			   $.ajax({
+			           url:url,
+                       dataType:"json",	
+					   error: function(xhr, str, msg){
+						   alert("php show hint:"+str+"--"+msg.toString());
+						},
+						async:false
+			          }
+				).done(function(data){  // Esto recibe lo que sea que el servidor respondió, y hace algo con ello, en nuestro caso sería llamar a una función que dibuje el grafo a partir del JSON recibido
+                        //Expected data={hints:[string1, ..., stringn]}
+						//Iterate over the array building options
+			            var options='';
+				        $.each(data.hints, function(i, hint){
+					       options+='<option value="'+hint+'" />';
+				        });
+				        //Put options in datalist
+				        $("#names").empty().html(options);
+				});				   
+			   
+			}; 
+             $(function(){
+			   $("#firstname").keyup(function(){showHintAJAX(this.value);}); <!-- Acá se genera manualmente y se envía el evento al dejar de escribir. -->
+			});			
+		</script>
+		<style>
+		  #main{
+		     margin-left:10%;
+			 padding-left:.5%;
+			 margin-right:50%;
+			 background:linear-gradient(lightgreen, green);
+			 font-size:1.20em;
+		  }
+		  #main>p{font-weight:bold;}
+		  
+		</style>
+
+	</head>
+	<body>
+       <div id="main">
+		<p><b>Type something in the input field:</b></p>
+		<form> 
+		  <label>Name:</label>
+		  <input id="firstname" required type="text" list="names" />
+		</form>
+		<datalist id="names"></datalist>
+		<p>Message: <span id="noHint"></span></p>
+       </div>
+	</body>
+</html>
