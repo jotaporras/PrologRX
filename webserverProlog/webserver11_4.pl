@@ -31,6 +31,10 @@ http://www.swi-prolog.org/pldoc/man?section=record
 % Response JSON object
 :- json_object response(ok:boolean).
 
+%Reading JSON objects
+:- json_object node(graph:string, name:string).
+:- json_object edge(graph:string, name:string, left:string, right:string).
+
 
 http:location(files, '/f', []).
 

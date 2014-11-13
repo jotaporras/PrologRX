@@ -34,6 +34,7 @@
         function Vertex(x, y, r, c) {
             this.x = x;
             this.y = y;
+            this.graph = "g1";
             this.name = "n"+VERTEX_CNT;
             VERTEX_CNT++;
             this.radius = r || radius;
@@ -419,6 +420,23 @@
                 lineWidth = lw;
                 disable(edgeBtn);
             };
+            function generateJSON(){
+		var text = '{ "nodes": [' + nodes.map(function(x){return '{ "graph": '+ x.graph + ', "name": ' + x.name + "}"}) + "]," +
+			     '"edges": [' + edges.map(function(x){return '{ "graph": '+ x.graph + ', "name": ' + x.name + 
+						      '"left": ' + x.left.name + '"right": ' + x.right.name + "}"}) + "] }";
+		return text;
+            }
+            function sendRequest(){
+	       var datos = generateJSON();
+	       var url = "";
+	       $.ajax({
+		    url:url,
+		    dataType:"json",
+		    type:"POST",
+		    data:datos,
+		    async:false
+	       }).done();
+            }
         }); //ready
     </script>
     <style>
@@ -431,6 +449,12 @@
         #node {
             margin-left: 40%;
         }
+        #send {
+	   font-size:x-large;
+	   margin-left: 41%;
+	   width: 150px;
+	   height:75px;
+        }
     </style>
 </head>
 
@@ -438,6 +462,9 @@
     <canvas id="canvas" width="490" height="220"></canvas>
     <button id="node">Delete Node</button>
     <button id="edge">Delete Edge</button>
+    <br> 
+    <br>
+    <button id="send">¿Euler?</button>
 </body>
 
 </html>
