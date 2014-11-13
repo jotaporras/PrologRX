@@ -22,6 +22,8 @@
 
         // View helpers
         var nodeBtn;
+        var edgeBtn;
+        var sendBtn;
 
         function disable(d) {
             d.attr("disabled", true);
@@ -64,6 +66,7 @@
         function Edge(left, right) {
             this.left = left;
             this.right = right;
+            this.graph = "g1";
             this.name = "e"+EDGE_CNT;
             EDGE_CNT++;
             this.left.link(this);
@@ -107,9 +110,15 @@
             //
             nodeBtn = $("#node"); // delete node button
             edgeBtn = $("#edge"); // delete edge button
+            sendBtn = $("#send"); // ask for Euler button
             //
             disable(nodeBtn);
             disable(edgeBtn);
+             
+            
+	    
+           
+            
             // Model and support functions
             function Point(e) {
                 this.x = e.pageX - canvas.offset().left;
@@ -126,6 +135,10 @@
 
             function NODE(p) {
                 return new Vertex(p.x, p.y);
+            };
+            
+            function GRAPH(){
+		return {nodes: nodes, edges: edges};
             };
 
             function NOT_NULL(n) {
@@ -208,8 +221,11 @@
                 IGNORE
             );
 
-
-
+	    var sendClick = Rx.Observable.fromEvent(sendBtn,'click').map(generateJSON);
+	    sendClick.subscribe(
+		sendRequest,
+		IGNORE
+	    );
 
             function drawNode(n, c) {
                 ctx.beginPath();
@@ -420,23 +436,30 @@
                 lineWidth = lw;
                 disable(edgeBtn);
             };
-            function generateJSON(){
-		var text = '{ "nodes": [' + nodes.map(function(x){return '{ "graph": '+ x.graph + ', "name": ' + x.name + "}"}) + "]," +
-			     '"edges": [' + edges.map(function(x){return '{ "graph": '+ x.graph + ', "name": ' + x.name + 
-						      '"left": ' + x.left.name + '"right": ' + x.right.name + "}"}) + "] }";
-		return text;
-            }
-            function sendRequest(){
-	       var datos = generateJSON();
-	       var url = "";
+            
+            function generateJSON(e){
+		var text = { "nodes": nodes.map(function(x){return { "graph": x.graph, "name": x.name};}),
+			     "edges": edges.map(function(x){return { "graph": x.graph, "name": x.name, "left": x.left.name, "right": x.right.name};})};
+		var jsoncito = JSON.stringify(text);
+		console.log(jsoncito);
+		return jsoncito;
+            };
+            
+            function sendRequest(data){
+	       var datos = data;
+	       var url = "localhost:9090";
 	       $.ajax({
+		    data:datos,
 		    url:url,
 		    dataType:"json",
-		    type:"POST",
-		    data:datos,
-		    async:false
-	       }).done();
-            }
+		    contentType: "application/json; charset=utf-8",
+		    type: "GET",
+		    success:alert("hola")
+	       });
+            };
+            
+            
+            
         }); //ready
     </script>
     <style>

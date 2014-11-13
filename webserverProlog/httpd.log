@@ -1,0 +1,23 @@
+server(started, 1415909750).
+/*Thu Nov 13 14:15:49 2014*/ request(1, 1415909749.739, [peer(ip(127,0,0,1)),method(post),request_uri('/hi'),path('/hi'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),origin(null),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache'),content_length(0)]).
+completed(1, 0.001668709, 401, 200, ok).
+/*Thu Nov 13 14:16:11 2014*/ request(2, 1415909771.374, [peer(ip(127,0,0,1)),method(get),request_uri('/hi'),path('/hi'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive')]).
+completed(2, 0.002015503000000001, 401, 200, ok).
+/*Thu Nov 13 14:16:11 2014*/ request(3, 1415909771.407, [peer(ip(127,0,0,1)),method(get),request_uri('/f/specialstyle.css'),path('/f/specialstyle.css'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),referer('http://localhost:9090/hi'),connection('keep-alive')]).
+completed(3, 0.002499144, 365, 404, not_found('/f/specialstyle.css')).
+/*Thu Nov 13 14:16:11 2014*/ request(4, 1415909771.411, [peer(ip(127,0,0,1)),method(get),request_uri('/f/script.js'),path('/f/script.js'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),referer('http://localhost:9090/hi'),connection('keep-alive')]).
+completed(4, 0.0018600179999999997, 358, 404, not_found('/f/script.js')).
+/*Thu Nov 13 14:16:11 2014*/ request(5, 1415909771.473, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive')]).
+completed(5, 0.001954794, 358, 404, error(404,'/favicon.ico')).
+/*Thu Nov 13 14:16:11 2014*/ request(6, 1415909771.480, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive')]).
+completed(6, 0.0008759610000000006, 358, 404, error(404,'/favicon.ico')).
+/*Thu Nov 13 14:16:17 2014*/ request(7, 1415909777.750, [peer(ip(127,0,0,1)),method(get),request_uri('/hi'),path('/hi'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive')]).
+completed(7, 0.002012687, 401, 200, ok).
+/*Thu Nov 13 14:16:17 2014*/ request(8, 1415909777.786, [peer(ip(127,0,0,1)),method(get),request_uri('/f/specialstyle.css'),path('/f/specialstyle.css'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),referer('http://localhost:9090/hi'),connection('keep-alive')]).
+completed(8, 0.0015578150000000006, 365, 404, not_found('/f/specialstyle.css')).
+/*Thu Nov 13 14:16:17 2014*/ request(9, 1415909777.788, [peer(ip(127,0,0,1)),method(get),request_uri('/f/script.js'),path('/f/script.js'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),referer('http://localhost:9090/hi'),connection('keep-alive')]).
+completed(9, 0.0017507019999999998, 358, 404, not_found('/f/script.js')).
+/*Thu Nov 13 14:19:37 2014*/ request(10, 1415909977.754, [peer(ip(127,0,0,1)),method(get),request_uri('/hi'),path('/hi'),http_version(1-1),user_agent('curl/7.32.0'),host(localhost),port(9090)]).
+completed(10, 0.0016084500000000009, 401, 200, ok).
+/*Thu Nov 13 14:19:49 2014*/ request(11, 1415909989.861, [peer(ip(127,0,0,1)),method(get),request_uri(/),path(/),http_version(1-1),user_agent('curl/7.32.0'),host(localhost),port(9090)]).
+completed(11, 0.001662331000000003, 347, 404, error(404,/)).
