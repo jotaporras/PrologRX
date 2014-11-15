@@ -151,7 +151,7 @@
                 })
                 .filter(NOT_NULL);
             btnEdgeClicks.subscribe(
-                eraseEdge,
+                deleteEdge,
                 IGNORE
             );
             // Pipeline for node deletion
@@ -160,18 +160,9 @@
                     return lastNodeSelected;
                 })
                 .filter(NOT_NULL);
-            var edgesToDelete = btnNodeClicks.map(function(n) {
-                    var o = n.out;
-                    deleteNode(n);
-                    return o;
-                })
-                .flatMap(function(e) {
-                    deleteEdge(e);
-                    return e;
-                });
 
-            edgesToDelete.subscribe(
-                eraseEdge,
+            btnNodeClicks.subscribe(
+                deleteNode,
                 IGNORE
             );
             var click = Rx.Observable.fromEvent(canvas, 'click')
@@ -262,6 +253,17 @@
 
             };
 
+            function insideLoop(n, x, y){
+			   var points = cPoints(n);
+			   for(var i=0; i <= 50; i++){
+			     var ip = b(1-i/50, points);
+				 var dx = ip[0]-x, dy = ip[1]-y;
+				 var distance=(Math.sqrt(dx*dx + dy*dy))/(i+1);
+				 if ( distance < 1.5) return true;
+			   }
+			   return false;
+	    };
+	    
             function cPoints(n) { //puntos de referencia del circulo que representa a un nodo
                 var r = n.radius;
                 var left = 8 * r;
@@ -278,6 +280,7 @@
             function deleteNode(n) {
                 var newNodes = [];
                 var i;
+                n.out.map(deleteEdge);
                 for (i = 0; i < nodes.length; i++) {
                     if (!Object.is(n, nodes[i])) newNodes.push(nodes[i]);
                     else {
@@ -289,6 +292,7 @@
                 for (; i < nodes.length; i++)
                     newNodes.push(nodes[i]);
                 nodes = newNodes;
+                
                 eraseNode(n);
             };
 
@@ -412,7 +416,8 @@
 
             function deleteEdge(e) {
                 e.left.disconnect(e);
-                e.right.disconnect(e);
+                
+                
                 var newEdges = [];
                 var i;
                 for (i = 0; i < edges.length; i++) {
@@ -426,6 +431,11 @@
                 for (; i < edges.length; i++)
                     newEdges.push(edges[i]);
                 edges = newEdges;
+                if(!e.left === e.right) {
+				  e.right.disconnect(e);
+				  eraseEdge(e);
+		}
+		else eraseLoop(e);
                 console.log(e);
             };
 
@@ -434,6 +444,11 @@
                 lineWidth += 3;
                 drawFromTo(e.left, e.right, DEL_COLOR);
                 lineWidth = lw;
+                disable(edgeBtn);
+            };
+            
+            function eraseLoop(e) {
+                drawLoop(e.x,DEL_COLOR);
                 disable(edgeBtn);
             };
             
@@ -447,14 +462,14 @@
             
             function sendRequest(data){
 	       var datos = data;
-	       var url = "localhost:9090";
+	       var url = "/json";
 	       $.ajax({
 		    data:datos,
 		    url:url,
 		    dataType:"json",
 		    contentType: "application/json; charset=utf-8",
-		    type: "GET",
-		    success:alert("hola")
+		    type: "POST",
+		    success: alert("sirvio el request")
 	       });
             };
             

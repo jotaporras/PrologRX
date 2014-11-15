@@ -55,7 +55,7 @@ stop_server(Port) :- http_stop_server(Port,[]).
 :- http_handler(files(.), serve_files, [prefix]).
 
 serve_files(Request) :-
-	 http_reply_from_files('assets', [], Request).
+	 http_reply_from_files('../drawing', [], Request).
 serve_files(Request) :-
 	  http_404([], Request).
 
