@@ -32,8 +32,9 @@ http://www.swi-prolog.org/pldoc/man?section=record
 :- json_object response(ok:boolean).
 
 %Reading JSON objects
-:- json_object node(graph:string, name:string).
-:- json_object edge(graph:string, name:string, left:string, right:string).
+:- json_object graph(nodes:list(node), edges:list(edge)).
+:- json_object node(graph:atom, name:atom).
+:- json_object edge(graph:atom, name:atom, left:atom, right:atom).
 
 
 http:location(files, '/f', []).
@@ -79,10 +80,13 @@ say_error(_Request) :-
 say_json(Request) :-
       http_read_json(Request, JSONIn),
       json_to_prolog(JSONIn, PrologIn),
+	  retractall(xx(_)),
 	  assert(xx(PrologIn)),
       respondJson(PrologIn, PrologOut),		
       prolog_to_json(PrologOut, JSONOut),
       reply_json(JSONOut).
+      
+
 	  
 respondJson(_, response(true)).	  
 
