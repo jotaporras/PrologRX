@@ -22,8 +22,6 @@ node(g1,n5).
 %11 arcos
 edge(g1,l,n0,n0). 
 edge(g1,m,n0,n0). 
-
-
 edge(g1,b,n0,n1).
 edge(g1,e,n0,n2).
 edge(g1,d,n0,n4).
