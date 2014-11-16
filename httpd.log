@@ -8,3 +8,33 @@ completed(3, 0.001225917, 358, 404, not_found('/f/script.js')).
 /*Wed Nov 12 11:49:34 2014*/ request(4, 1415814574.666, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
 completed(4, 0.001516102, 358, 404, error(404,'/favicon.ico')).
 server(stopped, 1415829721).
+server(started, 1416148259).
+/*Sun Nov 16 08:30:58 2014*/ request(1, 1416148258.863, [peer(ip(127,0,0,1)),method(get),request_uri('/f/drawRX.html'),path('/f/drawRX.html'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(1, 0.002446317, 360, 404, not_found('/f/drawRX.html')).
+/*Sun Nov 16 08:30:59 2014*/ request(2, 1416148259.419, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(2, 0.001025139999999999, 358, 404, error(404,'/favicon.ico')).
+/*Sun Nov 16 08:31:05 2014*/ request(3, 1416148265.523, [peer(ip(127,0,0,1)),method(get),request_uri('/drawRX.html'),path('/drawRX.html'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(3, 0.0033141460000000005, 358, 404, error(404,'/drawRX.html')).
+completed(0, 0.001222156000000002, 345, 500, error("Syntax error: illegal_uri_query")).
+/*Sun Nov 16 08:31:46 2014*/ request(4, 1416148306.995, [peer(ip(127,0,0,1)),method(get),request_uri('/f/drawRX.html'),path('/f/drawRX.html'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(4, 0.0018548339999999996, 360, 404, not_found('/f/drawRX.html')).
+/*Sun Nov 16 08:31:59 2014*/ request(5, 1416148319.217, [peer(ip(127,0,0,1)),method(get),request_uri('/hi'),path('/hi'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(5, 0.0015876139999999976, 401, 200, ok).
+/*Sun Nov 16 08:31:59 2014*/ request(6, 1416148319.272, [peer(ip(127,0,0,1)),method(get),request_uri('/f/specialstyle.css'),path('/f/specialstyle.css'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36'),referer('http://localhost:9090/hi')]).
+completed(6, 0.0016308839999999991, 365, 404, not_found('/f/specialstyle.css')).
+/*Sun Nov 16 08:31:59 2014*/ request(7, 1416148319.275, [peer(ip(127,0,0,1)),method(get),request_uri('/f/script.js'),path('/f/script.js'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36'),referer('http://localhost:9090/hi')]).
+completed(7, 0.0014477909999999969, 358, 404, not_found('/f/script.js')).
+/*Sun Nov 16 08:32:50 2014*/ request(8, 1416148370.926, [peer(ip(127,0,0,1)),method(get),request_uri('/drawRX'),path('/drawRX'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(8, 0.0018389889999999992, 353, 404, error(404,'/drawRX')).
+/*Sun Nov 16 08:32:56 2014*/ request(9, 1416148376.162, [peer(ip(127,0,0,1)),method(get),request_uri('/drawRX.html'),path('/drawRX.html'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(9, 0.002335282000000001, 358, 404, error(404,'/drawRX.html')).
+/*Sun Nov 16 08:33:04 2014*/ request(10, 1416148384.319, [peer(ip(127,0,0,1)),method(get),request_uri('/f/drawRX.html'),path('/f/drawRX.html'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(10, 0.001970160999999998, 360, 404, not_found('/f/drawRX.html')).
+completed(0, 0.000978861000000001, 345, 500, error("Syntax error: illegal_uri_query")).
+/*Sun Nov 16 08:33:32 2014*/ request(11, 1416148412.108, [peer(ip(127,0,0,1)),method(get),request_uri('/f.drawRX.html'),path('/f.drawRX.html'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(11, 0.002405436000000004, 360, 404, error(404,'/f.drawRX.html')).
+/*Sun Nov 16 08:34:03 2014*/ request(12, 1416148443.145, [peer(ip(127,0,0,1)),method(get),request_uri('/f/drawRX.html'),path('/f/drawRX.html'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive'),if_modified_since('Fri, 14 Nov 2014 00:51:52 GMT')]).
+completed(12, 0.0016728579999999993, 360, 404, not_found('/f/drawRX.html')).
+/*Sun Nov 16 08:34:03 2014*/ request(13, 1416148443.315, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive')]).
+completed(13, 0.0012692399999999979, 358, 404, error(404,'/favicon.ico')).
+server(stopped, 1416148479).
