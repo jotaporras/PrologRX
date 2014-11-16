@@ -292,3 +292,29 @@ completed(28, 0.002309707999999966, 11, 200, ok).
 completed(29, 0.0021251270000000044, 11, 200, ok).
 /*Sun Nov 16 10:42:51 2014*/ request(30, 1416156171.099, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(127),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
 completed(30, 0.0032918239999999988, 11, 200, ok).
+/*Sun Nov 16 10:51:01 2014*/ request(31, 1416156661.763, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(127),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(31, 0.002134071000000015, 11, 200, ok).
+server(stopped, 1416156847).
+server(started, 1416156978).
+/*Sun Nov 16 10:56:17 2014*/ request(1, 1416156977.873, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(258),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(1, 0.002791366, 11, 200, ok).
+server(stopped, 1416157212).
+server(started, 1416157397).
+/*Sun Nov 16 11:03:17 2014*/ request(1, 1416157397.084, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(258),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(1, 0.002190696, 11, 200, ok).
+server(stopped, 1416157458).
+server(started, 1416157493).
+/*Sun Nov 16 11:04:52 2014*/ request(1, 1416157492.806, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(258),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(1, 0.002811179, 11, 200, ok).
+server(stopped, 1416157998).
+server(started, 1416158309).
+/*Sun Nov 16 11:18:28 2014*/ request(1, 1416158308.751, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(258),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(1, 0.003535752, 11, 200, ok).
+server(stopped, 1416158871).
+server(started, 1416158980).
+/*Sun Nov 16 11:29:40 2014*/ request(1, 1416158980.330, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(258),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(1, 0.002755462, 11, 200, ok).
+server(stopped, 1416159083).
+server(started, 1416159094).
+/*Sun Nov 16 11:31:33 2014*/ request(1, 1416159093.572, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(258),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(1, 0.002534128, 11, 200, ok).

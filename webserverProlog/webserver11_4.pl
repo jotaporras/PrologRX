@@ -81,12 +81,15 @@ say_json(Request) :-
       http_read_json(Request, JSONIn),
       json_to_prolog(JSONIn, PrologIn),
 	  retractall(xx(_)),
-	  assert(xx(PrologIn)),
+	  assert(PrologIn),
       respondJson(PrologIn, PrologOut),		
       prolog_to_json(PrologOut, JSONOut),
       reply_json(JSONOut).
       
-
+nodes(X) :- graph(X,_).
+assert_nodes(X) :- nodes(X|_), assert(X).
+edges(Y) :- graph(_,Y).
+assert_edges(Y) :- edges(Y), assert(Y).
 	  
 respondJson(_, response(true)).	  
 
