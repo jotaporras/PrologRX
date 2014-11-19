@@ -30,3 +30,7 @@ Basicamente lo que se tiene es todo lo que el profe ha dado, que sería:
 Esto sería lo que tenemos para empezar. Como ya le comenté a luis estos días 
 voy a tener que hacer las tareas de algoritmos entre otras cosas, entonces talvez retome
 el proyecto por ahí del viernes o sábado. Sería bueno que vayan avanzando mientras.	
+
+******** Pablo - 11/11/14 *********
+Sorry por la tardanza, metí un ejemplo de como crear un evento y el request de ajax, lo que nos importa es el archivo testHint.html, está muy simple pero podría funcionarnos para generar el nuestro, la diferencia sería que en este ejemplo es con el keyup, en nuestro caso sería con el release del mouse (no sé como se llamaba ese), puse todo el ejemplo, está en PHP para que sea más fácil correrlo. *No sé que tanto vieron ustedes de esto en progra 4*
+

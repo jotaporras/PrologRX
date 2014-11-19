@@ -31,6 +31,11 @@ http://www.swi-prolog.org/pldoc/man?section=record
 % Response JSON object
 :- json_object response(ok:boolean).
 
+%Reading JSON objects
+:- json_object graph(nodes:list(node), edges:list(edge)).
+:- json_object node(graph:atom, name:atom).
+:- json_object edge(graph:atom, name:atom, left:atom, right:atom).
+
 
 http:location(files, '/f', []).
 
@@ -51,7 +56,7 @@ stop_server(Port) :- http_stop_server(Port,[]).
 :- http_handler(files(.), serve_files, [prefix]).
 
 serve_files(Request) :-
-	 http_reply_from_files('assets', [], Request).
+	 http_reply_from_files('../drawing', [], Request).
 serve_files(Request) :-
 	  http_404([], Request).
 
@@ -75,10 +80,31 @@ say_error(_Request) :-
 say_json(Request) :-
       http_read_json(Request, JSONIn),
       json_to_prolog(JSONIn, PrologIn),
-	  assert(xx(PrologIn)),
+	  retractall(graph(_)),
+	  assert(PrologIn),
+	  assert_nodes(_),
+	  assert_edges(_),
       respondJson(PrologIn, PrologOut),		
       prolog_to_json(PrologOut, JSONOut),
       reply_json(JSONOut).
+      
+nodes(X) :- graph(X,_).
+es_lista(_) :- nodes(X), is_list(X).
+%Estas son las dos maneras que he visto de almacenar el grafo en la base de datos:
+%assert_nodes(_) :- retractall(nodes(_)), nodes(X), assert(X). % Una es ingresar la lista de nodos como tal (osea como una lista, y que el algoritmo de grafos la recorra y los procese
+% la salida de este es : [node(g1, n0), node(g1, n1), node(g1, n3)].
+assert_nodes(_) :- retractall(node(_,_)), nodes(X), forall(member(Y,X),assert(Y)). % O bien almacenar cada nodo y cada edge por separado
+% Con este otro : ?- node(Graph,Name).
+		     %Graph = g1,
+		     %Name = n0 ;
+		     %Graph = g1,
+		     %Name = n1 ;
+		     %Graph = g1,
+		     %Name = n3.
+
+edges(Y) :- graph(_,Y).
+%assert_edges(Y) :- edges(Y), assert(Y).
+assert_edges(Y) :- retractall(edge(_,_,_,_)), edges(Y), forall(member(Z,Y), assert(Z)).
 	  
 respondJson(_, response(true)).	  
 
