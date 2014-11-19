@@ -364,3 +364,19 @@ server(started, 1416346258).
 /*Tue Nov 18 15:30:57 2014*/ request(1, 1416346257.985, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(100),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
 completed(1, 0.0032816519999999995, 11, 200, ok).
 server(stopped, 1416346673).
+server(started, 1416356464).
+completed(0, 0.0009393019999999999, 345, 500, error("Syntax error: illegal_uri_query")).
+/*Tue Nov 18 18:21:04 2014*/ request(1, 1416356464.198, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),connection('keep-alive'),user_agent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36')]).
+completed(1, 0.0013525359999999999, 358, 404, error(404,'/favicon.ico')).
+completed(0, 0.0007075690000000003, 345, 500, error("Syntax error: illegal_uri_query")).
+/*Tue Nov 18 18:21:36 2014*/ request(2, 1416356496.035, [peer(ip(127,0,0,1)),method(get),request_uri('/f/drawRX.html'),path('/f/drawRX.html'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive'),if_modified_since('Sun, 16 Nov 2014 16:34:54 GMT')]).
+completed(2, 0.0015847610000000005, 0, 304, not_modified).
+/*Tue Nov 18 18:21:36 2014*/ request(3, 1416356496.088, [peer(ip(127,0,0,1)),method(get),request_uri('/f/lib/jquery-2.1.0.min.js'),path('/f/lib/jquery-2.1.0.min.js'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),referer('http://localhost:9090/f/drawRX.html'),connection('keep-alive'),if_modified_since('Wed, 12 Nov 2014 02:06:21 GMT')]).
+completed(3, 0.0008882760000000003, 0, 304, not_modified).
+/*Tue Nov 18 18:21:36 2014*/ request(4, 1416356496.113, [peer(ip(127,0,0,1)),method(get),request_uri('/f/lib/rx.all.js'),path('/f/lib/rx.all.js'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),referer('http://localhost:9090/f/drawRX.html'),connection('keep-alive'),if_modified_since('Wed, 12 Nov 2014 02:06:21 GMT')]).
+completed(4, 0.0009977329999999998, 0, 304, not_modified).
+/*Tue Nov 18 18:21:36 2014*/ request(5, 1416356496.169, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),connection('keep-alive')]).
+completed(5, 0.0013025789999999999, 358, 404, error(404,'/favicon.ico')).
+/*Tue Nov 18 18:21:46 2014*/ request(6, 1416356506.959, [peer(ip(127,0,0,1)),method(post),request_uri('/json'),path('/json'),http_version(1-1),host(localhost),port(9090),user_agent('Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0'),content_type('application/json; charset=utf-8'),x_requested_with('XMLHttpRequest'),referer('http://localhost:9090/f/drawRX.html'),content_length(179),connection('keep-alive'),pragma('no-cache'),cache_control('no-cache')]).
+completed(6, 0.002532732000000001, 11, 200, ok).
+server(stopped, 1416356543).

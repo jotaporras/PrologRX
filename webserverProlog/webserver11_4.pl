@@ -82,6 +82,8 @@ say_json(Request) :-
       json_to_prolog(JSONIn, PrologIn),
 	  retractall(graph(_)),
 	  assert(PrologIn),
+	  assert_nodes(_),
+	  assert_edges(_),
       respondJson(PrologIn, PrologOut),		
       prolog_to_json(PrologOut, JSONOut),
       reply_json(JSONOut).
