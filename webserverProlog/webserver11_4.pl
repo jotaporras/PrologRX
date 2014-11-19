@@ -89,9 +89,9 @@ say_json(Request) :-
 nodes(X) :- graph(X,_).
 es_lista(_) :- nodes(X), is_list(X).
 %Estas son las dos maneras que he visto de almacenar el grafo en la base de datos:
-assert_nodes(_) :- nodes(X), assert(X). % Una es ingresar la lista de nodos como tal (osea como una lista, y que el algoritmo de grafos la recorra y los procese
+%assert_nodes(_) :- retractall(nodes(_)), nodes(X), assert(X). % Una es ingresar la lista de nodos como tal (osea como una lista, y que el algoritmo de grafos la recorra y los procese
 % la salida de este es : [node(g1, n0), node(g1, n1), node(g1, n3)].
-assert_nodes(_) :- nodes(X), forall(member(Y,X),assert(Y)). % O bien almacenar cada nodo y cada edge por separado
+assert_nodes(_) :- retractall(node(_,_)), nodes(X), forall(member(Y,X),assert(Y)). % O bien almacenar cada nodo y cada edge por separado
 % Con este otro : ?- node(Graph,Name).
 		     %Graph = g1,
 		     %Name = n0 ;
@@ -101,8 +101,8 @@ assert_nodes(_) :- nodes(X), forall(member(Y,X),assert(Y)). % O bien almacenar c
 		     %Name = n3.
 
 edges(Y) :- graph(_,Y).
-assert_edges(Y) :- edges(Y), assert(Y).
-assert_edges(Y) :- edges(Y), forall(member(Z,X), assert(Z)).
+%assert_edges(Y) :- edges(Y), assert(Y).
+assert_edges(Y) :- retractall(edge(_,_,_,_)), edges(Y), forall(member(Z,Y), assert(Z)).
 	  
 respondJson(_, response(true)).	  
 

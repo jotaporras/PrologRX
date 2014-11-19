@@ -9,7 +9,7 @@
 %Defínase grado como la cantidad de arcos que tiene.
 
 %nodos
-/*node(g1,n0).
+node(g1,n0).
 node(g1,n1).
 node(g1,n2).
 node(g1,n3).
@@ -33,7 +33,7 @@ edge(g1,h,n2,n3).
 edge(g1,i,n2,n4).
 edge(g1,j,n3,n4).
 edge(g1,k,n3,n5).
-*/
+
 /*
 Buscamos todos los arcos que tienen N como salida, el 1 en findall no sé para q es,
 retorno el largo de la lista.
