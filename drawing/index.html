@@ -1,10 +1,16 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Rx Drawing</title>
-        <meta charset="UTF-8">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/freelancer.css" rel="stylesheet">
         <script src="lib/jquery-2.1.0.min.js"></script>
         <script src="lib/rx.all.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/freelancer.js"></script>
         <script>
             // Model params
             var canvas;
@@ -19,7 +25,6 @@
             var DEL_COLOR = 'white';
             var RESALTA = 'green';
             var lastNodeSelected, lastEdgeSelected;
-
             // View helpers
             var nodeBtn;
             var edgeBtn;
@@ -456,7 +461,8 @@
                     if (!e.isLoop()) {
                         e.right.disconnect(e);
                         eraseEdge(e);
-                    } eraseLoop(e);
+                    }
+                    eraseLoop(e);
                     console.log(e);
                 }
 
@@ -474,26 +480,28 @@
                     lineWidth = lw;
                 }
 
-		    function activateHigh(y) {
-			var ruta = JSON.parse(y);
-		        var i = 0;			
-		        edges.forEach(function (x){			    				
-			    if(ruta.path.indexOf(x.name) !== -1){
-				i = 1000 * ruta.path.indexOf(x.name);
-				if(x.isLoop()){
-					setTimeout(function(){drawLoop(x.left, RESALTA)}, i);
-				}else{
-					setTimeout(function(){highligtEdge(x)}, i);
-				}
-			    }
-			});
-		    }
-
+                function activateHigh(y) {
+                    var ruta = JSON.parse(y);
+                    var i = 0;
+                    edges.forEach(function (x) {
+                        if (ruta.path.indexOf(x.name) !== -1) {
+                            i = 1000 * ruta.path.indexOf(x.name);
+                            if (x.isLoop()) {
+                                setTimeout(function () {
+                                    drawLoop(x.left, RESALTA)
+                                }, i);
+                            } else {
+                                setTimeout(function () {
+                                    highligtEdge(x)
+                                }, i);
+                            }
+                        }
+                    });
+                }
                 function eraseLoop(e) {
                     drawLoop(e.left, DEL_COLOR);
                     disable(edgeBtn);
                 }
-
                 function generateJSON(e) {
                     var text = {
                         "nodes": nodes.map(function (x) {
@@ -515,7 +523,6 @@
                     console.log(jsoncito);
                     return jsoncito;
                 }
-
                 function sendRequest(data) {
                     var datos = data;
                     var url = "/json";
@@ -525,40 +532,58 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         type: "POST",
-			success: function (response) {
-				activateHigh('{"path":["e0","e1","e2"]}');
-			}, error: function (response) {
-				activateHigh('{"path":["e0","e1","e2"]}');
-			}
+                        success: function (response) {
+                            activateHigh('{"path":["e0","e1","e2"]}');
+                        }, error: function (response) {
+                            activateHigh('{"path":["e0","e1","e2"]}');
+                        }
                     });
                 }
-
             }); //ready
         </script>
         <style>
             #canvas {
                 border-style: solid;
                 border-width: 1px;
-                margin-left: 30%;
-                margin-top: 5%;
-            }
-            #node {
-                margin-left: 40%;
-            }
-            #send {
-                font-size: x-large;
-                margin-left: 41%;
-                width: 150px;
-                height: 75px;
-            }
+            }            
         </style>
     </head>
-    <body>
-        <canvas id="canvas" width="490" height="220"></canvas>
-        <button id="node">Delete Node</button>
-        <button id="edge">Delete Edge</button>
-        <br/>
-        <br/>
-        <button id="send">¿Euler?</button>
+    <body id="page-top" class="index">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">Rx & Prolog: Euler Finder</a>
+                <div class="nav navbar-nav navbar-right" style="color: white">
+                    José Pablo Arias Zúñiga<br/>
+                    Javier Porras Valenzuela<br/>
+                    Luis Ramírez Vargas
+                </div>
+            </div>
+        </nav>
+        <header>
+            <div class="container">
+                <div class="row">
+                <table style="margin: auto">
+                <tr>
+                    <td colspan="2" style="width: 100%">
+                        <canvas class="center-block" id="canvas" width="490" height="220"></canvas>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button style="width: 100%" class="btn btn-danger" id="node">Delete Node</button>
+                    </td>
+                    <td>          
+                        <button style="width: 100%" class="btn btn-default" id="edge">Delete Edge</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button style="width: 100%" class="btn btn-success" id="send">¿Euler?</button>
+                    </td>
+                </tr>
+                </table>
+                </div>
+            </div>
+        </header>        
     </body>
 </html>
