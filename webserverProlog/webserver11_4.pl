@@ -28,8 +28,10 @@ http://www.swi-prolog.org/pldoc/man?section=record
 :- multifile http:location/3.
 :- dynamic   http:location/3.
 
+:- include('grafos.pl').
+
 % Response JSON object
-:- json_object response(ok:boolean).
+:- json_object response(path:list(atom)).
 
 %Reading JSON objects
 :- json_object graph(nodes:list(node), edges:list(edge)).
@@ -80,11 +82,12 @@ say_error(_Request) :-
 say_json(Request) :-
       http_read_json(Request, JSONIn),
       json_to_prolog(JSONIn, PrologIn),
-	  retractall(graph(_)),
+	  retractall(graph(_,_)),
 	  assert(PrologIn),
 	  assert_nodes(_),
 	  assert_edges(_),
-      respondJson(PrologIn, PrologOut),		
+	 generate_euler_cycle(g1,n0,Path),
+      respondJson(Path, PrologOut),		
       prolog_to_json(PrologOut, JSONOut),
       reply_json(JSONOut).
       
@@ -106,7 +109,7 @@ edges(Y) :- graph(_,Y).
 %assert_edges(Y) :- edges(Y), assert(Y).
 assert_edges(Y) :- retractall(edge(_,_,_,_)), edges(Y), forall(member(Z,Y), assert(Z)).
 	  
-respondJson(_, response(true)).	  
+respondJson(X, response(X)).	  
 
 css(URL) -->
         html_post(css,
