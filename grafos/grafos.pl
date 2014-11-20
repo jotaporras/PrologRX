@@ -189,7 +189,7 @@ fetch_tour_edges(ListTourEdges) :- 	findall(EdgeTour,tour(EdgeTour),ListTourEdge
 							
 find_next_edge(G,N,FE,NN,NE) :-  fetch_tour_edges(ListTourEdges),member(NE,ListTourEdges),(edge(G,FE,N,NN);edge(G,FE,NN,N)),(edge(G,NE,NN,NNN);edge(G,NE,NNN,NN)), NNN\=N.
 							
-expand_tour(G,_,_,L) :- 		fetch_tour_edges(LTour), has_all_edges(G,LTour), L = LTour .
+expand_tour(G,_,_,L) :- 		fetch_tour_edges(LTour), has_all_edges(G,LTour),!, L = LTour.
 		
 expand_tour(G,N,FE,L) :- 		find_loops(G,N),not(routeLoop(_,_,_)),
 								find_next_edge(G,N,FE,NN,NE),expand_tour(G,NN,NE,L).%If no loops available.
