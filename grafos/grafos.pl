@@ -29,6 +29,16 @@ node(g4,n2).
 node(g4,n3).
 node(g4,n4).
 node(g4,n5).
+node(g5,n0).
+node(g5,n1).
+node(g5,n2).
+node(g6,n0).
+node(g6,n1).
+node(g6,n2).
+node(g7,n0). %septimo
+node(g7,n1).
+node(g7,n2).
+node(g7,n3).
 %nodo aislado para probar is_connected.
 %node(g1,n6).
 
@@ -54,12 +64,22 @@ edge(g2,d,n3,n0).
 edge(g3,a,n0,n1). %Tercer grafo.
 edge(g3,b,n1,n2). 
 edge(g4,a,n0,n1). %Cuarto grafo
-edge(g4,b,n1,n2). %Cuarto grafo
-edge(g4,c,n2,n3). %Cuarto grafo
-edge(g4,d,n3,n0). %Cuarto grafo
-edge(g4,e,n2,n4). %Cuarto grafo
-edge(g4,f,n4,n5). %Cuarto grafo
-edge(g4,g,n5,n2). %Cuarto grafo
+edge(g4,b,n1,n2). 
+edge(g4,c,n2,n3). 
+edge(g4,d,n3,n0). 
+edge(g4,e,n2,n4). 
+edge(g4,f,n4,n5). 
+edge(g4,g,n5,n2).
+edge(g5,a,n0,n1). %Quinto grafo el mas easy
+edge(g5,b,n1,n2).
+edge(g5,c,n2,n0).
+edge(g6,a,n0,n1). %Sexto
+edge(g7,a,n0,n1). %Segundo grafo.
+edge(g7,b,n1,n2). 
+edge(g7,e,n2,n0).
+edge(g7,c,n2,n3).
+edge(g7,d,n3,n0).
+
 %Grafo para probar una cosa
 
 
@@ -92,7 +112,7 @@ find_degree_node(G,N,D) :- find_loop_degree_node(G,N,DL),find_proper_degree_node
 generate_degrees(G) :- 	retractall(degree(_,_,_)), %Borra todos los que tenga para crearlos de nuevo.
 						forall(find_degree_node(G,N,D),assert(degree(G,N,D))).
 %este lo hice yo para ver la lista de los grados de todos los nodos
-list_all_degrees(L):- findall([Node,Degree],degree(g1,Node,Degree),L).
+list_all_degrees(G,L):- findall([Node,Degree],degree(G,Node,Degree),L).
 
 %Ciclos de euler
 %
@@ -143,9 +163,9 @@ has_all_edges(G,R) :- 	forall(edge(G,E,_,_),(
 
 %add_tour(+Graph,+RouteCycle) --NOT TESTED
 
-add_tour(G,R) :-	retractall(tour(_)), 
-					forall((member(E,R),edge(G,E,N,_),not(tour(N))),
-					(assert(tour(N)),assert(drawn(e)))
+add_tour(R) :-	retractall(tour(_)), 
+					forall((member(E,R)),
+					(assert(tour(E)),assert(drawn(E)))
 				).
 
 %find a cycle of undrawn edges starting from N and put between the two edges that contain N.
@@ -158,27 +178,26 @@ insert_between(_,_,SCirc,[E|RLCirc],Aux2) :- Aux=[E|[SCirc|RLCirc]], flatten(Aux
 
 %Where do you want it to start.
 generate_euler_cycle(G,N,L) :- retractall(drawn(_)),find_euler_cycle(G,N,L).
+find_euler_cycle(G,_,L) :- (not(has_euler(G));not(is_connected(G))),!,L = [].
 find_euler_cycle(G,N,L) :-  find_loops(G,N),
 							retractall(visited(_)),retractall(visitedEdge(_)),retractall(stack(_)),%limpiando las variables despues de loop.
-							retract(routeLoop(G,S,[FE|D]),
-							add_tour(G,[FE|D]),
-							fetch_tour_nodes(ListTourNodes),
-							expand_tour(G,N,FE,ListTourNodes,L).
+							retract(routeLoop(G,N,[FE|D])),
+							add_tour([FE|D]),
+							expand_tour(G,N,FE,L).
 
-fetch_tour_nodes(ListTourNodes) :- 	findall(NodoTour,tour(NodoTour),ListTourNodes).					
+fetch_tour_edges(ListTourEdges) :- 	findall(EdgeTour,tour(EdgeTour),ListTourEdges).					
 							
-expand_tour(G,N,_,L) :- 		fetch_tour_nodes(LTour), has_all_edges(G,LTour), L = LTour.					.
-expand_tour(G,N,FE,L) :- 		find_loops(G,M),retract(routeLoop(G,M,D)),
-								fetch_tour_nodes(LTour),
-								insert_between(G,M,D,LTour,Out),add_tour(G,Out)
-								expand_tour(G,N,L).
+find_next_edge(G,N,FE,NN,NE) :-  fetch_tour_edges(ListTourEdges),member(NE,ListTourEdges),(edge(G,FE,N,NN);edge(G,FE,NN,N)),(edge(G,NE,NN,NNN);edge(G,NE,NNN,NN)), NNN\=N.
+							
+expand_tour(G,_,_,L) :- 		fetch_tour_edges(LTour), has_all_edges(G,LTour), L = LTour .
+		
+expand_tour(G,N,FE,L) :- 		find_loops(G,N),not(routeLoop(_,_,_)),
+								find_next_edge(G,N,FE,NN,NE),expand_tour(G,NN,NE,L).%If no loops available.
 
-								forall(member(M,LTour),(	
-										find_loops(G,M),
-										retract(routeLoop(G,M,D)),
-										add_tour(G,D),insert_between(G,M,D,ListaTour,Out)
-									)
-								).						
+expand_tour(G,N,FE,L) :- 		find_loops(G,M),retract(routeLoop(G,M,D)),
+								fetch_tour_edges(LTour),
+								insert_between(G,M,D,LTour,Out),add_tour(G,Out),
+								find_next_edge(G,N,FE,NN,NE),expand_tour(G,NN,NE,L).					
 						%,hierholzer_concat(G,N,D,L).
 %hierholzer_concat(+Graph,+Node,+Decoy Cycle,-L)
 /*
