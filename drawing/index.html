@@ -481,27 +481,28 @@
                 }
 
                 function activateHigh(y) {
-                    var ruta = JSON.parse(y);
                     var i = 0;
                     edges.forEach(function (x) {
-                        if (ruta.path.indexOf(x.name) !== -1) {
-                            i = 1000 * ruta.path.indexOf(x.name);
+                        if (y.path.indexOf(x.name) !== -1) {
+                            i = 1000 * y.path.indexOf(x.name);
                             if (x.isLoop()) {
                                 setTimeout(function () {
-                                    drawLoop(x.left, RESALTA)
+                                    drawLoop(x.left, RESALTA);
                                 }, i);
                             } else {
                                 setTimeout(function () {
-                                    highligtEdge(x)
+                                    highligtEdge(x);
                                 }, i);
                             }
                         }
                     });
                 }
+
                 function eraseLoop(e) {
                     drawLoop(e.left, DEL_COLOR);
                     disable(edgeBtn);
                 }
+
                 function generateJSON(e) {
                     var text = {
                         "nodes": nodes.map(function (x) {
@@ -532,10 +533,16 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         type: "POST",
-                        success: function (response) {
-                            activateHigh('{"path":["e0","e1","e2"]}');
+                        success: function (x) {
+                            if (!x.path.length === 0) {
+                                activateHigh(x);
+                            } else {
+                                $('#modal').modal({
+                                    show: 'true'
+                                });
+                            }
                         }, error: function (response) {
-                            activateHigh('{"path":["e0","e1","e2"]}');
+                            alert("Hubo un problema de conexión con el servidor");
                         }
                     });
                 }
@@ -562,28 +569,44 @@
         <header>
             <div class="container">
                 <div class="row">
-                <table style="margin: auto">
-                <tr>
-                    <td colspan="2" style="width: 100%">
-                        <canvas class="center-block" id="canvas" width="490" height="220"></canvas>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button style="width: 100%" class="btn btn-danger" id="node">Delete Node</button>
-                    </td>
-                    <td>          
-                        <button style="width: 100%" class="btn btn-default" id="edge">Delete Edge</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button style="width: 100%" class="btn btn-success" id="send">¿Euler?</button>
-                    </td>
-                </tr>
-                </table>
+                    <table style="margin: auto">
+                        <tr>
+                            <td colspan="2" style="width: 100%">
+                                <canvas class="center-block" id="canvas" width="490" height="220"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button style="width: 100%" class="btn btn-danger" id="node">Delete Node</button>
+                            </td>
+                            <td>          
+                                <button style="width: 100%" class="btn btn-default" id="edge">Delete Edge</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button style="width: 100%" class="btn btn-success" id="send">¿Euler?</button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-        </header>        
-    </body>
+        </header>  
+        <div id="modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">¡Error!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>El grafo ingresado no posee ciclo de Euler</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->      
+    </body>	
 </html>
